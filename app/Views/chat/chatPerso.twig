@@ -1,0 +1,31 @@
+{% extends "/partialsPerso/layoutPerso.twig" %}
+{% block title %}Chat privé{% endblock %}
+
+
+{% block content %}
+<div class="sidenav">
+    {% for user in users %}
+      <a href="{{base_url}}public/chatPerso/{{ user.id|e }}">{{ user.name|e }}</a>
+    {% endfor %}
+</div>
+<div class="col-12 my-1v main">
+    <div class="p-2 chat" id="discussion_perso">
+    </div>
+</div>
+<form method="POST" id="chat_perso" enctype="multipart/form-data">
+    <div class="col-12 saisie main">
+            <div class="input-group-append">
+                <input type="text" name="texte_perso" id="texte_perso" placeholder="Entrez votre texte" required>
+                <input type="file" name="file" id="file" class="btn-post" accept=".jpg,.jpeg,.png">
+                <button class="btn-post" id="valid_perso">Poster</button>
+            </div>
+       </div>
+</form>
+</div>
+	<div class="main">
+        <button class="btn-post"><a href="{{base_url}}public/auth">Retour chat</a></button>
+		<button class="btn-post"><a href="{{base_url}}public/logOut">Log Out</a></button>
+	</div>
+{% endblock %}
+
+

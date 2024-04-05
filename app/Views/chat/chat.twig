@@ -1,0 +1,29 @@
+{% extends "/partialsPerso/layoutPerso.twig" %}
+{% block title %}Le Chat de Sylvain Torrenti{% endblock %}
+
+
+{% block content %}
+<div class="sidenav">
+    {% for user in users %}
+      <a href="chatPerso/{{ user.id|e }}">{{ user.name|e }}</a>
+    {% endfor %}
+</div>
+<div class="col-12 my-1v main">
+    <div class="p-2 chat" id="discussion">
+    </div>
+</div>
+<form method="POST" id="chat" enctype="multipart/form-data">
+    <div class="col-12 saisie main">
+        <div class="input-group-append"> 
+            <input type="text" name="texte" id="texte" placeholder="Entrez votre texte" required>
+            <input type="file" name="file" id="file" class="btn-post" accept=".jpg,.jpeg,.png">
+            <button class="btn-post"  id="valid">Poster</button>
+        </div>
+    </div>
+</form>
+	<div class="main">
+		<button class="btn-post"><a href="logOut">Log Out</a></button>
+	</div>
+{% endblock %}
+
+

@@ -1,0 +1,45 @@
+{% extends "/partialsPerso/layoutPerso.twig" %}
+{% block title %}Le Chat de Sylvain Torrenti{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row" style="margin-top:45px">
+        <div class="col-md-4 col-md-offset-4">
+        {% if validation is defined and validation is not empty%}
+                <div class="alert alert-danger">Données fournies non conformes</div>
+            {% endif %}
+            <h4>Sign Up</h4><hr>
+            <form action="register" method="post">
+                <div class="form-group">
+                    <label for="">Nom</label>
+                    <input type="text" class="form-control" name="name" placeholder="Entrez votre Nom">  
+                    <span class="text-danger">                  
+                </div>
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="text" class="form-control" name="email" placeholder="Entrez votre Email">
+                </div>
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="Entrez votre Password">
+                </div>
+                <div class="form-group">
+                    <label for="">Confirmez le Password</label>
+                    <input type="password" class="form-control" name="cpassword" placeholder="Confirmez votre Password">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+                </div>
+                <br>
+                {% if validation is defined and validation is not empty%}
+                <a href="{{base_url}}">J'ai déja un compte</a>
+                {% else %}
+                <a href="{{base_url}}public">J'ai déja un compte</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}
+
