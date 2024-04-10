@@ -2,37 +2,45 @@
     margin-left: 10px;
     border-radius: 5px;
 }
+
 /* The sidebar menu */
 .sidenav {
-    width: 160px; /* Set the width of the sidebar */
+    height: 500px;
+    width: 160px;
+    /* Set the width of the sidebar */
     max-width: 220px;
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 10px; /* Stay at the top */
+    position: fixed;
+    /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1;
+    /* Stay on top */
+    top: 10px;
+    /* Stay at the top */
     left: 0;
-    overflow-x: hidden; /* Disable horizontal scroll */
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
     padding-top: 20px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
-    /* The navigation menu links */
-    .sidenav a {
-        padding: 6px 8px 6px 16px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
-    }
+/* The navigation menu links */
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
 
-        /* When you mouse over the navigation links, change their color */
-        .sidenav a:hover {
-            color: #f1f1f1;
-        }
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
 
 /* Style page content */
 .main {
-    margin-left: 160px; /* Same as the width of the sidebar */
+    margin-left: 160px;
     padding: 0px 10px;
+    width: 1200px;
 }
 
 .footer {
@@ -40,6 +48,11 @@
 }
 
 .chat {
-    height: 450px;
+    height: 500px;
     overflow-y: auto;
+    margin-top: 15px;
+}
+
+.btn-post{
+    margin-top: 15px;
 }

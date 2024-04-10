@@ -5,35 +5,40 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+ //Routes pour l'authentification
 $routes->get('/', 'AuthController::index');
-
-$routes->get('auth', 'HomeController::index');
-
-$routes->post('auth', 'HomeController::postMessage');
 
 $routes->get('register', 'AuthController::register');
 
 $routes->post('register', 'AuthController::save');
 
-$routes->get('logOut', 'AuthController::logOut');
-
 $routes->post('logIn', 'AuthController::check');
 
-$routes->post('message', 'HomeController::postMessage');
+$routes->get('logOut', 'AuthController::logOut');
 
-$routes->post('getMessage', 'HomeController::getMessage');
+//Route pour l'affichage du chat
+$routes->get('chat', 'HomeController::index');
 
+//Route pour l'affichage de la conversation privée
 $routes->get('chatPerso/(:num)', 'HomeController::chatPerso/$1');
 
-$routes->post('chatPerso/(:num)', 'HomeController::postMessage');
-
-$routes->post('chatPerso/message', 'HomeController::postMessage');
+//Routes pour l'affichage des messages
+$routes->post('getMessage', 'HomeController::getMessage');
 
 $routes->post('chatPerso/getMessage', 'HomeController::getMessage');
 
+//Routes pour poster les messages
+$routes->post('postMessage', 'HomeController::postMessage');
+
+$routes->post('chatPerso/postMessage', 'HomeController::postMessage');
+
+//Route pour enregistrer les fichiers joints
 $routes->post('getFile', 'FileController::displayFile');
 
-$routes->get('file/display/(:num)', 'FileController::display/$1', ['as' => 'display_file']);
+//Route pour afficher les fichiers joints
+$routes->get('file/display/(:num)', 'FileController::display/$1');
+
 
 
 

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\UsersModel;
 use App\Models\MessageModel;
 use App\Models\FileModel;
+use CodeIgniter\CLI\Console;
 use CodeIgniter\CodeIgniter;
 
 
@@ -45,7 +46,6 @@ class HomeController extends FileController
             'userInfo' => $userInfo,
             'users' => $user,
             'base_url' => $base_url,
-
         ];
 
         return $this->render('chat/chatPerso.twig', $data);
@@ -73,7 +73,6 @@ class HomeController extends FileController
 
             $messages = $messageModel->getMessages($lastId, $IdSendUser, $idReceiveUser);
 
-
             $messagesJson = json_encode($messages);
             echo $messagesJson;
         }
@@ -83,34 +82,18 @@ class HomeController extends FileController
     // Rajoute au nom du fichier {mois-anné_}
     public function fileUpload()
     {
-
         $data = array();
 
-        // Validation
-        $validation = \Config\Services::validation();
+        if ($file = $this->request->getFile('file')) {
+            if ($file->isValid() && !$file->hasMoved()) {
+                // Récupére le nom du fichier et le remplace
+                $name = $file->getName();
+                $time = date("m-Y");
 
-        $input = $validation->setRules([
-            'file' => 'uploaded[file]|max_size[file,1024]|ext_in[file,jpeg,jpg,png],'
-        ]);
+                $newName = $time . "_" . $name;
 
-        if ($validation->withRequest($this->request)->run() == FALSE) {
-
-            $data['success'] = 0;
-            $data['error'] = $validation->getError('file'); // Error response
-
-        } else {
-
-            if ($file = $this->request->getFile('file')) {
-                if ($file->isValid() && !$file->hasMoved()) {
-                    // Récupére le nom du fichier et le remplace
-                    $name = $file->getName();
-                    $time = date("m-Y");
-
-                    $newName = $time . "_" . $name;
-
-                    // Stock le fichier
-                    $file->move('../writable/chatFiles/' . $time, $newName, true);
-                }
+                // Stock le fichier
+                $file->move('../writable/chatFiles/' . $time, $newName, true);
             }
         }
         return $this->response->setJSON($data);

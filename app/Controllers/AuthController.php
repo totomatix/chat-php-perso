@@ -2,17 +2,12 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\CodeIgniter;
 use App\Models\UsersModel;
 use App\Libraries\Hash;
 
 class AuthController extends BaseController
 {
-
-    public function __construct()
-    {
-        helper(['url', 'form']);
-    }
+    protected $helpers = ['form'];
 
     // Affiche la page de Log In
     public function index()
@@ -30,20 +25,42 @@ class AuthController extends BaseController
     // Sauvegarde lors de la création de compte
     public function save()
     {
-        $validation = $this->validate([
-            'name'=>'required',
-            'email'=>'required|valid_email|is_unique[users.email]',
-            'password'=>'required|min_length[4]',
-            'cpassword'=>'required|min_length[4]|matches[password]'
-        ]);
+        $data = $this->request->getPost();
+        $validation = \Config\Services::validation();
+        $validation->setRules(
+            [
+                'name' => 'required',
+                'email' => 'required|valid_email|is_unique[users.email]',
+                'password' => 'required|min_length[4]',
+                'cpassword' => 'required|min_length[4]|matches[password]'
+            ],
+            [
+                'name' => [
+                    'required' => 'Le nom est requis'
+                ],
+                'email' => [
+                    'required' => 'L\'email dois être renseigné',
+                    'valid_email' => 'L\'email dois être valide',
+                    'is_not_unique' => 'L\'email est déjà utilisé'
+                ],
+                'password' => [
+                    'required' => 'Le mot de passe est requis',
+                    'min_length' => 'Le mot de passe dois contenire au moins 4 caractéres'
+                ],
+                'cpassword' => [
+                    'required' => 'La confirmatrion du mot de passe est requis',
+                    'min_length' => 'La confirmatrion du mot de passe dois contenire au moins 4 caractéres',
+                    'matches' => 'La confirmation du mot de pass dois correspondre avec le mot de passe'
+                ]
+            ]
+        );
 
-        if (!$validation) {
-            $base_url = base_url("/public");
+        if (!$validation->run($data)) {
+            $errors = $validation->getErrors();
             $data = [
-                'validation' => $this->validator,                
-                'base_url' => $base_url,    
+                'error' => $errors
             ];
-            return $this->render('auth/register.twig',$data);      
+            return $this->render('auth/register.twig', $data);
         } else {
             $name = $this->request->getPost('name');
             $email = $this->request->getPost('email');
@@ -57,54 +74,68 @@ class AuthController extends BaseController
             $usersModel = new UsersModel();
             $usersModel->insert($values);
 
-            return redirect()->route('/');
+            $data = [
+                'success' => 'Compte créé avec succes!'
+            ];
+
+            return $this->render('auth/login.twig', $data);
         }
     }
-    //Permet de check si les informations de la crétion de compte sont validées
+    //Permet de check si les informations du Log In sont valides
     public function check()
     {
+        $data = $this->request->getPost();
+
         $validation = \Config\Services::validation();
-        $validation = $this->validate([
-            'email' => [
-                'rules' => 'required|valid_email|is_not_unique[users.email]',
-                'errors' => [
-                    'required' => 'Email est requis',
-                    'valid_email' => 'Entrez un Email valide',
-                    'is_not_unique' => 'L\'email n\'est pas enregistré'
-                ]
+        $validation->setRules(
+            [
+                'email' => 'required|valid_email|is_not_unique[users.email]',
+                'password' => 'required|min_length[4]',
             ],
-            'password' => [
-                'rules' => 'required|min_length[4]',
-                'errors' => [
+            [
+                'email' => [
+                    'required' => 'L\'email dois être renseigné',
+                    'valid_email' => 'L\'email dois être valide',
+                    'is_not_unique' => 'Aucun compte ne correspond à cet Email'
+                ],
+                'password' => [
                     'required' => 'Le mot de pass est requis',
-                    'min_length' => 'Le mot de pass doit contenir au moins 4 caractères'
+                    'min_length' => 'Le mot de pass dois contenire au moins 4 caractéres'
                 ]
             ]
-        ]);
+        );
+        if (!$validation->run($data)) {
+            $errors = $validation->getErrors();
+            $data = [
+                'error' => $errors
+            ];
+            return $this->render('auth/login.twig', $data);
+        }
 
-        if (!$validation) {
-            $data['validation'] = $this->validator;
-            return $this->render('auth/login.twig',$data);
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
+
+        $usersModel = new UsersModel();
+
+        $user_info = $usersModel->where('email', $email)->first();
+        $check_password = Hash::check($password, $user_info['password']);
+        $user_info = $usersModel->where('email', $email)->first();
+
+        $session = \Config\Services::session();
+        $user_id = $user_info['id'];
+
+        $newdata = [
+            'id'  => $user_id,
+            'logged_in' => true,
+        ];
+
+        $session->set($newdata);
+
+        if (!$check_password) {
+            return $this->render('auth/login.twig', ['validation' => $this->validator]);
         } else {
-            $email = $this->request->getPost('email');
-            $password = $this->request->getPost('password');
-            $usersModel = new UsersModel();
-            $user_info = $usersModel->where('email', $email)->first();
-            $check_password = Hash::check($password, $user_info['password']);
 
-            if (!$check_password) {
-                return $this->render('auth/login.twig',['validation'=>$this->validator]);
-            } else {
-                $session = \Config\Services::session();
-                $user_info = $usersModel->where('email', $email)->first();
-                $user_id = $user_info['id'];
-                $newdata = [
-                    'id'  => $user_id,
-                    'logged_in' => true,
-                ];
-                $session->set($newdata);
-                return redirect()->route('auth');
-            }
+            return redirect()->route('chat');
         }
     }
 

@@ -13,19 +13,30 @@
                 <div class="form-group">
                     <label for="">Nom</label>
                     <input type="text" class="form-control" name="name" placeholder="Entrez votre Nom">  
-                    <span class="text-danger">                  
+                    {% if error.name is defined %}
+                    <div class="alert alert-danger"> {{ error.name }} </div>     
+                    {% endif %}            
                 </div>
                 <div class="form-group">
                     <label for="">Email</label>
                     <input type="text" class="form-control" name="email" placeholder="Entrez votre Email">
+                    {% if error.email is defined %}
+                    <div class="alert alert-danger"> {{ error.email }} </div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label for="">Password</label>
                     <input type="password" class="form-control" name="password" placeholder="Entrez votre Password">
+                    {% if error.password is defined %}
+                    <div class="alert alert-danger"> {{ error.password }} </div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label for="">Confirmez le Password</label>
                     <input type="password" class="form-control" name="cpassword" placeholder="Confirmez votre Password">
+                    {% if error.cpassword is defined %}
+                    <div class="alert alert-danger"> {{ error.cpassword }} </div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
