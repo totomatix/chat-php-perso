@@ -5,12 +5,12 @@ window.onload = () => {
     if (document.querySelector("#texte") != null) {
         var texte = document.querySelector("#texte");
         texte.addEventListener("keyup", verifEntree);
-        chargeMessage();
+        // chargeMessage();
         setInterval(chargeMessage, 1000);
     } else {
         var texte_perso = document.querySelector('#texte_perso');
         texte_perso.addEventListener("keyup", verifEntree);
-        chargeMessage();
+        // chargeMessage();
         setInterval(chargeMessage, 1000);
     }
     if (document.querySelector('#valid') != null) {
@@ -61,7 +61,7 @@ function chargeMessage() {
         var dateMessage = new Date(message.created_at);
         if (file != null) {
             idFile = message.id_image;
-            discussion.innerHTML = `<p>${dateMessage.toLocaleString()} ${message.userName} : ${message.content} <img src="/chat-php/public/file/display/${message.idFile}" width="300" 
+            discussion.innerHTML = `<p>${dateMessage.toLocaleString()} ${message.userName} : ${message.content} <img src="http://chat/public/file/display/${message.idFile}" width="300" 
                     height="200"> </p>` + discussion.innerHTML;
             lastId = message.id;
         } else {
@@ -86,13 +86,12 @@ function ajoutMessage() {
                 var fileName = fileInput.files[0].name;
                 file = fileInput.files[0];
                 fd.append('file', file);
-                fd.append('fileName', fileName);
                 var data = fd;
             } else {
                 fileName = "";
-                fd.append('fileName', fileName);
                 var data = fd;
             }
+            fd.append('fileName', fileName);
             $.ajax({
                 processData: false,
                 contentType: false,
@@ -117,13 +116,12 @@ function ajoutMessage() {
                 var fileName = fileInput.files[0].name;
                 file = fileInput.files[0];
                 fd.append('file', file);
-                fd.append('fileName', fileName);
                 var data = fd;
             } else {
                 fileName = "";
-                fd.append('fileName', fileName);
                 var data = fd;
             }
+            fd.append('fileName', fileName);
             $.ajax({
                 processData: false,
                 contentType: false,

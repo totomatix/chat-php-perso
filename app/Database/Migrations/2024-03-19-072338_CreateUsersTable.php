@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
                 'constraint' => 200,
             ],
         ]);
-        $this->forge->addKey('id', true);
+        $this->forge->addPrimaryKey('id');
         $this->forge->createTable('users');
     }
 

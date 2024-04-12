@@ -23,12 +23,12 @@ class CreateFileTable extends Migration
             ],
             'created_at datetime default current_timestamp',
         ]);
-        $this->forge->addKey('id', true);
+        $this->forge->addPrimaryKey('id');
         $this->forge->createTable('file');
     }
 
     public function down()
     {
-        $this->forge->dropTable('message');
+        $this->forge->dropTable('file');
     }
 }

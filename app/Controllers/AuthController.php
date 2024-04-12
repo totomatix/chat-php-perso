@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Libraries\Hash;
+use CodeIgniter\CodeIgniter;
 
 class AuthController extends BaseController
 {
@@ -18,8 +19,7 @@ class AuthController extends BaseController
     // Affiche la page de création de compte
     public function register()
     {
-        $data['base_url'] = base_url("/");
-        return $this->render('auth/register.twig', $data);
+        return $this->render('auth/register.twig');
     }
 
     // Sauvegarde lors de la création de compte
@@ -134,8 +134,19 @@ class AuthController extends BaseController
         if (!$check_password) {
             return $this->render('auth/login.twig', ['validation' => $this->validator]);
         } else {
+            $usersModel = new UsersModel();
 
-            return redirect()->route('chat');
+            $loggedUserID = $_SESSION['id'];
+            $userInfo = $usersModel->find($loggedUserID);
+    
+            $user = $usersModel->find();
+            $data = [
+                'CI_VERSION' => CodeIgniter::CI_VERSION,
+                'ENVIRONMENT' => ENVIRONMENT,
+                'userInfo' => $userInfo,
+                'users' => $user
+            ];
+            return $this->render('chat/chat.twig', $data);
         }
     }
 
@@ -145,7 +156,7 @@ class AuthController extends BaseController
         $session = \Config\Services::session();
         if ($session->logged_in == true) {
             $session->destroy();
-            return redirect()->route('/');
+            return $this->render('auth/login.twig');
         }
     }
 }

@@ -31,13 +31,12 @@ class CreateMessageTable extends Migration
         $this->forge->addForeignKey('id', 'users', 'send_user_id');
         $this->forge->addForeignKey('id', 'users', 'Receive_user_id');
         $this->forge->addForeignKey('id', 'file', 'id_image');
-        $this->forge->addKey('id', true);
+        $this->forge->addPrimaryKey('id');
         $this->forge->createTable('message');
     }
 
     public function down()
     {
-        $this->forge->dropForeignKey('file', 'id_image');
         $this->forge->dropForeignKey('users', 'send_user_id');
         $this->forge->dropForeignKey('users', 'Receive_user_id');
         $this->forge->dropTable('message');
