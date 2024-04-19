@@ -18,10 +18,8 @@ class MessageModel extends Model
     {
         $messageModel = new MessageModel();
 
-        //Definition de la condition where pour la messagerie privée
         $where = "message.receive_user_id = $idReceiveUser and message.send_user_id = $IdSendUser and message.id > $lastId or message.receive_user_id = $IdSendUser and message.send_user_id = $idReceiveUser and message.id > $lastId";
 
-        //Si la messagerie est la messagerie generale
         if ($idReceiveUser == 0) {
             $data = $messageModel
                 ->asArray()
@@ -33,7 +31,6 @@ class MessageModel extends Model
                 ->where('message.id >', $lastId)
                 ->find();
             return $data;
-            //si la messagerie est la messagerie privée
         } else {
             $data = $messageModel
                 ->asArray()

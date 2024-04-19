@@ -5,9 +5,6 @@ namespace App\Controllers;
 use App\Models\UsersModel;
 use App\Models\MessageModel;
 use App\Models\FileModel;
-use CodeIgniter\CLI\Console;
-use CodeIgniter\CodeIgniter;
-
 
 class ChatController extends FileController
 {
@@ -22,10 +19,9 @@ class ChatController extends FileController
 
         $user = $usersModel->find();
         $data = [
-            'CI_VERSION' => CodeIgniter::CI_VERSION,
-            'ENVIRONMENT' => ENVIRONMENT,
             'userInfo' => $userInfo,
             'users' => $user
+
         ];
         return $this->render('chat/chat.twig', $data);
     }
@@ -45,13 +41,13 @@ class ChatController extends FileController
         $data = [
             'userInfo' => $userInfo,
             'users' => $user,
-            'base_url' => $base_url,
+            'base_url' => $base_url
         ];
 
         return $this->render('chat/chatPerso.twig', $data);
     }
 
-    // Récupére les messages stocké en BDD selon le chat ou l'utilisateur se trouve 
+    // Récupére les messages stocké en BDD selon le chat où l'utilisateur se trouve 
     public function getMessage()
     {
         $messageModel = new MessageModel();
@@ -78,7 +74,7 @@ class ChatController extends FileController
         }
     }
 
-    // Upload le fichier selectionner par l'utilisateur dans le dossier writable/chatFile/{le mois - l'année}
+    // Upload le fichier selectionné par l'utilisateur dans le dossier writable/chatFile/{le mois - l'année}
     // Rajoute au nom du fichier {mois-anné_}
     public function fileUpload()
     {
@@ -86,13 +82,11 @@ class ChatController extends FileController
 
         if ($file = $this->request->getFile('file')) {
             if ($file->isValid() && !$file->hasMoved()) {
-                // Récupére le nom du fichier et le remplace
                 $name = $file->getName();
                 $time = date("m-Y");
 
                 $newName = $time . "_" . $name;
 
-                // Stock le fichier
                 $file->move('../writable/chatFiles/' . $time, $newName, true);
             }
         }
@@ -105,7 +99,6 @@ class ChatController extends FileController
         $messageModel = new MessageModel();
         $fileModel = new FileModel();
 
-        // Condition pour verifier si le message est poster avec un fichier attaché
         if ($_POST['fileName'] != "") {
 
             $loggedUserID = $_SESSION['id'];
@@ -114,26 +107,21 @@ class ChatController extends FileController
             $fileName = $_POST['fileName'];
             $directory = date("m-Y");
 
-            // Enregistre en BDD le nom et le répertoir où est stocké le fichier
             $fileModel->save([
                 'name' => $fileName,
                 'directory' => $directory
             ]);
 
-            // Récupére l'Id du fichier qui vient d'être enregistrer pour pouvoir le lier au message en BDD
             $idImage = $fileModel->insertId();
 
-            // Effectue la fonction fileUpload()
             $this->fileUpload();
 
-            // Sauvegarde le message en BDD
             $messageModel->save([
                 'send_user_id' => $loggedUserID,
                 'receive_user_id' => $idReceiveUser,
                 'content' => $message,
                 'id_image' => $idImage
             ]);
-            // Si il n'y a pas de fichier attaché
         } else {
 
             $loggedUserID = $_SESSION['id'];

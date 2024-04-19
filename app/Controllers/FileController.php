@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\FileModel;
 
 use App\Controllers\BaseController;
-use CodeIgniter\CLI\Console;
 
 
 class FileController extends BaseController

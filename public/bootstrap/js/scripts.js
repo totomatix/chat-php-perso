@@ -61,11 +61,11 @@ function chargeMessage() {
         var dateMessage = new Date(message.created_at);
         if (file != null) {
             idFile = message.id_image;
-            discussion.innerHTML = `<p>${dateMessage.toLocaleString()} ${message.userName} : ${message.content} <img src="http://chat/public/file/display/${message.idFile}" width="300" 
-                    height="200"> </p>` + discussion.innerHTML;
+            discussion.innerHTML = `<p class="reponse">${message.userName}</p><li class="reponse"><p>${message.content} <img src="http://chat/file/display/${message.idFile}" width="300" 
+                    height="200"></p><span class="time">${dateMessage.toLocaleString()}</span></li>` + discussion.innerHTML;
             lastId = message.id;
         } else {
-            discussion.innerHTML = `<p>${dateMessage.toLocaleString()} ${message.userName} : ${message.content}</p>` + discussion.innerHTML;
+            discussion.innerHTML = `<p>${message.userName}</p><li class="envoie"><p>${message.content}</p><span class="time">${dateMessage.toLocaleString()}</span></li>` + discussion.innerHTML;
             lastId = message.id;
         }
     }

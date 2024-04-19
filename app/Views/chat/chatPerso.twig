@@ -3,29 +3,96 @@
 
 
 {% block content %}
-<div class="sidenav">
-    {% for user in users %}
-      <a href="{{base_url}}chatPerso/{{ user.id|e }}">{{ user.name|e }}</a>
-    {% endfor %}
-</div>
-<div class="col-12 my-1v main">
-    <div class="p-2 chat" id="discussion">
-    </div>
-</div>
-<form method="POST" id="chat_perso" enctype="multipart/form-data">
-    <div class="col-12 saisie main">
-            <div class="input-group-append">
-                <input type="text" name="texte_perso" id="texte_perso" placeholder="Entrez votre texte" required maxlength="500">
-                <input type="file" name="file" id="file" class="btn-post" accept=".jpg,.jpeg,.png">
-                <button class="btn-post" id="valid_perso">Poster</button>
+    <!-- char-area -->
+    <section class="message-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="chat-area">
+                        <!-- chatlist -->
+                        <div class="chatlist">
+                            <div class="modal-dialog-scrollable">
+                                <div class="modal-content">                                   
+                                    <div class="modal-body">
+                                        <!-- chat-list -->
+                                        <div class="chat-lists">
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="Open" role="tabpanel" aria-labelledby="Open-tab">
+                                                    <!-- chat-list -->
+                                                    <div class="chat-list">
+                                                        {% for user in users %}
+                                                            <a href="{{base_url}}chatPerso/{{ user.id|e }}" class="d-flex align-items-center">
+                                                                <div class="flex-shrink-0">
+                                                                 <img class="img-fluid" src="../public/image/profile.png" alt="user img">
+                                                                </div>
+                                                                <div class="flex-grow-1 ms-3">
+                                                                    <h3>{{ user.name|e }}</h3>
+                                                                </div>
+                                                            </a>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="Closed" role="tabpanel" aria-labelledby="Closed-tab">                                                  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- chatlist -->
+                        <!-- chatbox -->
+                        <div class="chatbox">
+                            <div class="modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="msg-head">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="d-flex align-items-center">                                                    
+                                                    <div class="flex-shrink-0">
+                                                        <img class="img-fluid" src="../public/image/profile.png" alt="user img">
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h3>{{ userInfo.name }}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="msg-body">
+                                            <ul>                                            
+                                                <div class="msg-body" id="discussion">                                                
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="send-box">
+                                        <form method="POST" id="chat_perso" enctype="multipart/form-data">
+                                             <div class="col-12 saisie main">
+                                                <div class="input-group-append"> 
+                                                    <input type="text" name="texte_perso" id="texte_perso" placeholder="Entrez votre texte" required maxlength="500">
+                                                    <input type="file" name="file" id="file" class="btn-post" accept=".jpg,.jpeg,.png">
+                                                    <button class="btn-post"  id="valid_perso">Poster</button>
+                                                </div>
+                                            </div>
+                                        </form>                                     
+                                    <div class="main">
+		                                 <button class="btn-post"><a href="{{base_url}}chat">Retour chat</a></button>
+		                                <button class="btn-post"><a href="{{base_url}}logOut">Log Out</a></button>
+	                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- chatbox -->
+                </div>
             </div>
-       </div>
-</form>
-</div>
-	<div class="main">
-        <button class="btn-post"><a href="{{base_url}}chat">Retour chat</a></button>
-		<button class="btn-post"><a href="{{base_url}}logOut">Log Out</a></button>
-	</div>
+        </div>
+        </div>
+    </section>
+    <!-- char-area -->
 {% endblock %}
 
 

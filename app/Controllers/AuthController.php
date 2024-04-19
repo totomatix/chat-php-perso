@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Libraries\Hash;
-use CodeIgniter\CodeIgniter;
 
 class AuthController extends BaseController
 {
@@ -81,6 +80,7 @@ class AuthController extends BaseController
             return $this->render('auth/login.twig', $data);
         }
     }
+    
     //Permet de check si les informations du Log In sont valides
     public function check()
     {
@@ -141,8 +141,6 @@ class AuthController extends BaseController
     
             $user = $usersModel->find();
             $data = [
-                'CI_VERSION' => CodeIgniter::CI_VERSION,
-                'ENVIRONMENT' => ENVIRONMENT,
                 'userInfo' => $userInfo,
                 'users' => $user
             ];
