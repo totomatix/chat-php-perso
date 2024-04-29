@@ -11,28 +11,28 @@
             <h4>Sign Up</h4><hr>
             <form action="register" method="post">
                 <div class="form-group">
-                    <label for="">Nom</label>
+                    <label for="">Nom*</label>
                     <input type="text" class="form-control" name="name" placeholder="Entrez votre Nom">  
                     {% if error.name is defined %}
                     <div class="alert alert-danger"> {{ error.name }} </div>     
                     {% endif %}            
                 </div>
                 <div class="form-group">
-                    <label for="">Email</label>
+                    <label for="">Email*</label>
                     <input type="text" class="form-control" name="email" placeholder="Entrez votre Email">
                     {% if error.email is defined %}
                     <div class="alert alert-danger"> {{ error.email }} </div>
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    <label for="">Password</label>
+                    <label for="">Password*</label>
                     <input type="password" class="form-control" name="password" placeholder="Entrez votre Password">
                     {% if error.password is defined %}
                     <div class="alert alert-danger"> {{ error.password }} </div>
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    <label for="">Confirmez le Password</label>
+                    <label for="">Confirmez le Password*</label>
                     <input type="password" class="form-control" name="cpassword" placeholder="Confirmez votre Password">
                     {% if error.cpassword is defined %}
                     <div class="alert alert-danger"> {{ error.cpassword }} </div>
@@ -41,6 +41,7 @@
                 <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
                 </div>
+                <div  class="obligatoire">Les champs avec un * sont obligatoire</div>
                 <br>
                 <a href="http://chat/">J'ai déja un compte</a>
             </form>

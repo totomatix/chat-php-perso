@@ -3,6 +3,10 @@
     border-radius: 5px;
 }
 
+.obligatoire{
+    font-size: smaller;
+}
+
 /* The sidebar menu */
 .sidenav {
     height: 500px;

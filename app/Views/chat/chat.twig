@@ -4,6 +4,7 @@
 
 {% block content %}
     <!-- chat-area -->
+        <input hidden id="loggedId" value={{ userInfo.id }}>
     <section class="message-area">
         <div class="container">
             <div class="row">
@@ -63,10 +64,6 @@
                                         <div class="msg-body">
                                             <ul>                                            
                                                 <div class="msg-body" id="discussion">         
-                                                    {% for message in messages %}
-                                                        {% if message.userName == userInfo.name %}
-                                                         {% endif %}
-                                                    {% endfor %}  
                                                 </div>
                                             </ul>
                                         </div>

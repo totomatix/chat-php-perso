@@ -52,10 +52,10 @@ class ChatController extends FileController
     {
         $messageModel = new MessageModel();
 
-        if (!($_POST['idUser'] == null)) {
+        if (!($_POST['idUser'] == 0)) {
             $lastId = $_POST['lastId'];
-            $idReceiveUser = $_POST['idUser'];
             $IdSendUser = $_SESSION['id'];
+            $idReceiveUser = $_POST['idUser'];
 
             $message = $messageModel->getMessages($lastId, $IdSendUser, $idReceiveUser);
 

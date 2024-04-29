@@ -23,7 +23,7 @@ class MessageModel extends Model
         if ($idReceiveUser == 0) {
             $data = $messageModel
                 ->asArray()
-                ->select('message.id ,message.content,message.created_at,users.name as userName,file.name as fileName,file.directory,file.id as idFile')
+                ->select('message.id ,message.content,message.created_at,users.id as userId, users.name as userName,file.name as fileName,file.directory,file.id as idFile')
                 ->join('users', 'message.send_user_id = users.id')
                 ->join('file', 'message.id_image = file.id', 'left')
                 ->orderBy('message.id', 'DESC')
@@ -34,7 +34,7 @@ class MessageModel extends Model
         } else {
             $data = $messageModel
                 ->asArray()
-                ->select('message.id,message.content,message.created_at,users.name as userName,file.name as fileName,file.directory,file.id as idFile')
+                ->select('message.id,message.content,message.created_at,users.id as userId,users.name as userName,file.name as fileName,file.directory,file.id as idFile')
                 ->join('users', 'message.send_user_id = users.id')
                 ->join('file', 'message.id_image = file.id', 'left')
                 ->orderBy('message.id', 'DESC')

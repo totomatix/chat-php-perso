@@ -5,12 +5,10 @@ window.onload = () => {
     if (document.querySelector("#texte") != null) {
         var texte = document.querySelector("#texte");
         texte.addEventListener("keyup", verifEntree);
-        // chargeMessage();
         setInterval(chargeMessage, 1000);
     } else {
         var texte_perso = document.querySelector('#texte_perso');
         texte_perso.addEventListener("keyup", verifEntree);
-        // chargeMessage();
         setInterval(chargeMessage, 1000);
     }
     if (document.querySelector('#valid') != null) {
@@ -32,7 +30,7 @@ function verifEntree(e) {
 //Fonction de charge des messages
 function chargeMessage() {
     if (document.querySelector("#texte") != null) {
-        var idUser = null;
+        var idUser = 0;
         data = {
             'lastId': lastId,
             'idUser': idUser
@@ -53,6 +51,7 @@ function chargeMessage() {
         success: function (text) {
             messages = JSON.parse(text);
             messages.reverse();
+
         }
     });
     var discussion = document.querySelector("#discussion");
@@ -61,12 +60,24 @@ function chargeMessage() {
         var dateMessage = new Date(message.created_at);
         if (file != null) {
             idFile = message.id_image;
-            discussion.innerHTML = `<p class="reponse">${message.userName}</p><li class="reponse"><p>${message.content} <img src="http://chat/file/display/${message.idFile}" width="300" 
-                    height="200"></p><span class="time">${dateMessage.toLocaleString()}</span></li>` + discussion.innerHTML;
+            var loggedId = document.querySelector("#loggedId").value;
+            if (loggedId == message.userId) {
+                discussion.innerHTML = `<p class="envoie"></p><li class="envoie"><p>${message.content} <img src="http://chat/file/display/${message.idFile}" width="300" 
+                height="200"></p><span class="time">${dateMessage.toLocaleString()}</span></li>` + discussion.innerHTML;
+            } else {
+                discussion.innerHTML = `<p class="reponse"><li class="reponse"><p>${message.userName} :<br>${message.content} <img src="http://chat/file/display/${message.idFile}" width="300" 
+                height="200"></p><span class="time">${dateMessage.toLocaleString()}</span></li>` + discussion.innerHTML;
+            }
             lastId = message.id;
         } else {
-            discussion.innerHTML = `<p>${message.userName}</p><li class="envoie"><p>${message.content}</p><span class="time">${dateMessage.toLocaleString()}</span></li>` + discussion.innerHTML;
-            lastId = message.id;
+            var loggedId = document.querySelector("#loggedId").value;
+            if (loggedId == message.userId) {
+                discussion.innerHTML = `<p class="envoie"><li class="envoie"><p>${message.content}</p><span class="time">${dateMessage.toLocaleString()}</span></li>` + discussion.innerHTML;
+                lastId = message.id;
+            } else {
+                discussion.innerHTML = `<p class="reponse"><li class="reponse"><p>${message.userName} :<br> ${message.content}</p><span class="time">${dateMessage.toLocaleString()}</span></li>` + discussion.innerHTML;
+                lastId = message.id;
+            } 
         }
     }
 }
